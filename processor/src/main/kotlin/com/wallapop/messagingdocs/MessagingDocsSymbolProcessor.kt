@@ -19,13 +19,13 @@ class MessagingDocsSymbolProcessor(private val logger: KSPLogger) : SymbolProces
         val subscriberDeclarations = classDeclarationFinder.findMatching(SubscriberDeclarationMatcher())
 
         val (annotatedDomainEventDeclarations, unAnnotatedDomainEventDeclarations) = domainEventDeclarations.partition(MessagingDocAnnotatedMatcher())
-        val (subscriberOfAnnotatedEventDeclaration, subscriberOfUnAnnotatedEventDeclaration) = subscriberDeclarations.partition(SubscriberOfMessagingDocAnnotatedMatcher())
+        val (subscriberOfAnnotatedEventDeclarations, subscriberOfUnAnnotatedEventDeclarations) = subscriberDeclarations.partition(SubscriberOfMessagingDocAnnotatedMatcher())
 
-        val report = ReportGenerator.generate(annotatedDomainEventDeclarations, subscriberOfAnnotatedEventDeclaration)
+        val report = ReportGenerator.generate(annotatedDomainEventDeclarations, subscriberOfAnnotatedEventDeclarations)
 
         logger.warn(report.toString())
         logger.warn("# of undocumented events: ${unAnnotatedDomainEventDeclarations.size}")
-        logger.warn("# of undocumented subscribers: ${subscriberOfUnAnnotatedEventDeclaration.size}")
+        logger.warn("# of undocumented subscribers: ${subscriberOfUnAnnotatedEventDeclarations.size}")
 
         return emptyList()
     }

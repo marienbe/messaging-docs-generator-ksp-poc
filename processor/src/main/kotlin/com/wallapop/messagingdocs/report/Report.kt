@@ -1,13 +1,10 @@
 package com.wallapop.messagingdocs.report
 
-sealed class AttributeDefinition {
-    data class Primitive(val attributeName: String, val attributeType: String) : AttributeDefinition()
-    data class Composite(val attributeName: String, val attributeType: List<AttributeDefinition>): AttributeDefinition()
-}
+import com.wallapop.messagingdocs.type.TypeDescription
 
 data class DomainEventDescription(
     val routingKey: String,
-    val attributeDefinitions: List<AttributeDefinition>
+    val attributes: List<Attribute>
 )
 
 data class SubscriberDescription(
@@ -18,3 +15,5 @@ data class Report(
     val domainEventDescriptions: List<DomainEventDescription>,
     val subscriberDescriptions: List<SubscriberDescription>
 )
+
+data class Attribute(val name: String, val type: TypeDescription)

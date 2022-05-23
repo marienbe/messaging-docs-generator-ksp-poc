@@ -5,7 +5,7 @@ import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.wallapop.domaineventbus.domain.documentation.MessagingDoc
-import com.wallapop.messagingdocs.report.AttributeDefinition.Primitive
+import com.wallapop.messagingdocs.type.TypeDescriptionMapper
 
 @OptIn(KspExperimental::class)
 object DomainEventDeclarationDescriber {
@@ -13,9 +13,9 @@ object DomainEventDeclarationDescriber {
         val routingKey = domainEventDeclaration.routingKey()
         val attributeDefinition = domainEventDeclaration.getAllProperties().map {
             val name = it.simpleName.asString()
-            val type = it.type.resolve().declaration.simpleName.asString()
+            val type = TypeDescriptionMapper(it.type)
 
-            Primitive(name, type)
+            Attribute(name, type)
         }.toList()
 
         return DomainEventDescription(routingKey, attributeDefinition)
